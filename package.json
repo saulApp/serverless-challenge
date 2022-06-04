@@ -1,0 +1,19 @@
+{
+  "name": "aws-serverless",
+  "version": "1.0.0",
+  "description": "Reto desarrollo backend nodejs",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "NodeJs"
+  ],
+  "author": "Saul Aranda Chavez <saul.aranda@live.com>",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.1148.0",
+    "axios": "^0.27.2",
+    "uuid": "^8.3.2"
+  }
+}
