@@ -15,5 +15,9 @@
     "aws-sdk": "^2.1148.0",
     "axios": "^0.27.2",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "serverless-aws-documentation": "^1.1.0",
+    "serverless-openapi-documentation": "^0.4.0"
   }
 }

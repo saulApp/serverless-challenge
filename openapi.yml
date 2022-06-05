@@ -1,0 +1,229 @@
+openapi: 3.0.0
+components:
+  schemas:
+    Character:
+      type: object
+      properties:
+        nombre:
+          type: string
+        altura:
+          type: string
+        masa:
+          type: string
+        color_pelo:
+          type: string
+        color_piel:
+          type: string
+        color_ojos:
+          type: string
+        año_nacimiento:
+          type: string
+        genero:
+          type: string
+        mundo_natal:
+          type: string
+        peliculas:
+          type: string
+        especies:
+          type: string
+        vehiculos:
+          type: string
+        naves:
+          type: string
+        creado:
+          type: string
+        editado:
+          type: string
+        url:
+          type: string
+    Note:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        complete:
+          type: boolean
+    NoteResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        complete:
+          type: boolean
+        createdAt:
+          type: string
+    SuccessResponse:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        mensaje:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        statusCode:
+          type: number
+        mensaje:
+          type: string
+  securitySchemes: {}
+info:
+  title: Documentación reto serverless
+  description: Esta es la documentación de los servicios
+  version: '1'
+paths:
+  /personaje/{id}:
+    get:
+      operationId: starWarsApi
+      summary: Obtener personaje
+      description: Obtiene un personaje de star wars por id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Id del personaje
+      responses:
+        '200':
+          description: Obtenemos al personaje de star wars
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+        '400':
+          description: Status 400 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /note:
+    post:
+      operationId: createNote
+      summary: Creación de nota
+      description: Realiza la creación de la nota
+      requestBody:
+        description: Estructura del objeto para la creación de la nota
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        '200':
+          description: Se registra la nota
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Status 400 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      operationId: getAllNotes
+      summary: Listar notas
+      description: Se listan todas las notas
+      responses:
+        '200':
+          description: Se listan las notas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Note'
+        '400':
+          description: Status 400 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /note/{id}:
+    get:
+      operationId: getNote
+      summary: Obtener una nota
+      description: Obtenemos una nota
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Id de la nota
+      responses:
+        '200':
+          description: Se obtiene una nota por id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoteResponse'
+        '400':
+          description: Status 400 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      operationId: updateNote
+      summary: Actualizar nota
+      description: Actualizamos una nota
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Id de la nota
+      requestBody:
+        description: Estructura del objeto para la actualización de la nota
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+      responses:
+        '200':
+          description: Se actualiza una nota por id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoteResponse'
+        '400':
+          description: Status 400 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      operationId: deleteNote
+      summary: Eliminar nota
+      description: Eliminamos una nota
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Id de la nota
+      responses:
+        '200':
+          description: Se elimina una nota por id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Status 400 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'

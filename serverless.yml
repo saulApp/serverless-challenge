@@ -13,38 +13,232 @@ provider:
         - dynamodb:*
       Resource:
         - arn:aws:dynamodb:us-west-2:335946760084:table/Notes
+plugins:
+  - serverless-openapi-documentation
+  - serverless-aws-documentation
+
+custom:
+  documentation:
+    version: "1"
+    title: "Documentación reto serverless"
+    description: "Esta es la documentación de los servicios"
+    models:
+      - name: Character
+        description: "Es el detalle del personaje"
+        contentType: "application/json"
+        schema:
+          type: object
+          properties:
+            nombre:
+              type: string
+            altura:
+              type: string
+            masa:
+              type: string
+            color_pelo:
+              type: string
+            color_piel:
+              type: string
+            color_ojos:
+              type: string
+            año_nacimiento:
+              type: string
+            genero:
+              type: string
+            mundo_natal:
+              type: string
+            peliculas:
+              type: string
+            especies:
+              type: string
+            vehiculos:
+              type: string
+            naves:
+              type: string
+            creado:
+              type: string
+            editado:
+              type: string
+            url:
+              type: string
+      - name: Note
+        contentType: "application/json"
+        schema:
+          type: object
+          properties:
+            title:
+              type: string
+            description:
+              type: string
+            complete:
+              type: boolean
+      - name: NoteResponse
+        contentType: "application/json"
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+            title:
+              type: string
+            description:
+              type: string
+            complete:
+              type: boolean
+            createdAt:
+              type: string
+      - name: SuccessResponse
+        contentType: "application/json"
+        schema:
+          type: object
+          properties:
+            statusCode:
+              type: number
+            mensaje:
+              type: string
+      - name: ErrorResponse
+        contentType: "application/json"
+        schema:
+          type: object
+          properties:
+            statusCode:
+              type: number
+            mensaje:
+              type: string
 
 functions:
   starWarsApi:
     handler: src/handler.starWarsApi
     events:
       - http:
-          method: get
-          path: /personaje/{id}
+          path: "personaje/{id}"
+          method: "get"
+          documentation:
+            summary: "Obtener personaje"
+            description: "Obtiene un personaje de star wars por id"
+            pathParams:
+              - name: "id"
+                description: "Id del personaje de star wars"
+                schema:
+                  type: "number"
+            methodResponses:
+              - statusCode: "200"
+                responseBody:
+                  description: "Obtenemos al personaje de star wars"
+                responseModels:
+                  "application/json": "Character"
+              - statusCode: "400"
+                responseModels:
+                  "application/json": "ErrorResponse"
   createNote:
     handler: src/handler.createNote
     events:
       - http:
-          method: post
-          path: /note
+          method: "post"
+          path: "note"
+          documentation:
+            summary: "Creación de nota"
+            description: "Realiza la creación de la nota"
+            requestBody:
+              description: "Objeto con campos de nota"
+            requestModel:
+              "application/json": "Note"
+            methodResponses:
+              - statusCode: "200"
+                responseBody:
+                  description: "Se registra la nota"
+                responseModels:
+                  "application/json": "SuccessResponse"
+              - statusCode: "400"
+                responseModels:
+                  "application/json": "ErrorResponse"
   getAllNotes:
     handler: src/handler.getAllNotes
     events:
       - http:
-          method: get
-          path: /note
+          method: "get"
+          path: "note"
+          documentation:
+            summary: "Listar notas"
+            description: "Se listan todas las notas"
+            methodResponses:
+              - statusCode: "200"
+                responseBody:
+                  description: "Se listan las notas"
+                responseModels:
+                  "application/json": "NoteResponse"
+              - statusCode: "400"
+                responseModels:
+                  "application/json": "ErrorResponse"
   getNote:
     handler: src/handler.getNote
     events:
       - http:
-          method: get
-          path: /note/{id}
+          method: "get"
+          path: "note/{id}"
+          documentation:
+            summary: "Obtener una nota"
+            description: "Obtenemos una nota"
+            pathParams:
+              - name: "id"
+                description: "Id de la nota"
+                schema:
+                  type: "string"
+            methodResponses:
+              - statusCode: "200"
+                responseBody:
+                  description: "Se obtiene una nota por id"
+                responseModels:
+                  "application/json": "NoteResponse"
+              - statusCode: "400"
+                responseModels:
+                  "application/json": "ErrorResponse"
   updateNote:
     handler: src/handler.updateNote
     events:
       - http:
           method: put
-          path: /note/{id}
+          path: "note/{id}"
+          documentation:
+            summary: "Actualizar nota"
+            description: "Actualizamos una nota"
+            pathParams:
+              - name: "id"
+                description: "Id de la nota"
+                schema:
+                  type: "string"
+            methodResponses:
+              - statusCode: "200"
+                responseBody:
+                  description: "Se actualiza una nota por id"
+                responseModels:
+                  "application/json": "NoteResponse"
+              - statusCode: "400"
+                responseModels:
+                  "application/json": "ErrorResponse"
+  deleteNote:
+    handler: src/handler.deleteNote
+    events:
+      - http:
+          method: delete
+          path: "note/{id}"
+          documentation:
+            summary: "Eliminar nota"
+            description: "Eliminamos una nota"
+            pathParams:
+              - name: "id"
+                description: "Id de la nota"
+                schema:
+                  type: "string"
+            methodResponses:
+              - statusCode: "200"
+                responseBody:
+                  description: "Se elimina una nota por id"
+                responseModels:
+                  "application/json": "SuccessResponse"
+              - statusCode: "400"
+                responseModels:
+                  "application/json": "ErrorResponse"
 resources:
   Resources:
     Notes:

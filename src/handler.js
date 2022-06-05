@@ -4,7 +4,10 @@ const AWS = require("aws-sdk");
 const { personaje } = require("../model/personaje");
 const { v4 } = require("uuid");
 
-// Método para consumir SWAPI
+
+/* 
+Método para consumir SWAPI
+*/
 const starWarsApi = async (event) => {
   try {
     // Destructuramos el objeto pathParameters para obtener su id
@@ -21,7 +24,6 @@ const starWarsApi = async (event) => {
     return responseMessage(200, personaje(response.data));
   } catch (err) {
     // retornamos mensaje de error si falla al realizar la petición
-    console.log(err);
     return responseMessage(400, {
       message: "Ocurrió un error al realizar la busqueda del personaje.",
     });
@@ -37,13 +39,12 @@ const createNote = async (event) => {
     const { title, description } = JSON.parse(event.body);
     const createdAt = new Date();
     const id = v4();
-    console.log("created id: ", id);
     const newNote = {
       id,
       title,
       description,
-      done: false,
-      createdAt,
+      complete: false,
+      createdAt: createdAt.toISOString(),
     };
     await dynamodb
       .put({
@@ -52,9 +53,10 @@ const createNote = async (event) => {
       })
       .promise();
 
-    return responseMessage(200, newNote);
+    return responseMessage(200, {
+      message: "Se registró correctamente la nota.",
+    });
   } catch (err) {
-    console.log(err);
     // retornamos mensaje de error si falla al realizar la petición
     return responseMessage(400, {
       message: "Ocurrió un error al crear la nota.",
@@ -65,7 +67,6 @@ const createNote = async (event) => {
 /* 
 Creación de método para listar notas 
 */
-
 const getAllNotes = async (event) => {
   try {
     const dynamodb = new AWS.DynamoDB.DocumentClient();
@@ -74,7 +75,7 @@ const getAllNotes = async (event) => {
         TableName: "Notes",
       })
       .promise();
-    return responseMessage(200, response);
+    return responseMessage(200, response.Items);
   } catch (error) {
     // retornamos mensaje de error si falla al realizar la petición
     return responseMessage(400, {
@@ -98,8 +99,7 @@ const getNote = async (event) => {
         },
       })
       .promise();
-    const note = response.Item;
-    return responseMessage(200, note);
+    return responseMessage(200, response.Item);
   } catch (error) {
     // retornamos mensaje de error si falla al realizar la petición
     return responseMessage(400, {
@@ -115,30 +115,69 @@ const updateNote = async (event) => {
   try {
     const dynamodb = new AWS.DynamoDB.DocumentClient();
     const { id } = event.pathParameters;
-    const { done, title, description } = JSON.parse(event.body);
-    const note = await dynamodb.update({
-      TableName: "Notes",
-      Key: { id },
-      UpdateExpression: "set done = :done, title = :title, description = :description",
-      ExpressionAttributeValues: {
-        ":done": done,
-        ":title": title,
-        ":description": description,
-      },
+    const { complete, title, description } = JSON.parse(event.body);
+    const note = await dynamodb
+      .update({
+        TableName: "Notes",
+        Key: { id },
+        UpdateExpression:
+          "set complete = :complete, title = :title, description = :description",
+        ExpressionAttributeValues: {
+          ":complete": complete,
+          ":title": title,
+          ":description": description,
+        },
+        ReturnValues: "ALL_NEW",
+      })
+      .promise();
+    return responseMessage(200, note.Attributes);
+  } catch (error) {
+    // retornamos mensaje de error si falla al realizar la petición
+    return responseMessage(400, {
+      message: "Ocurrió un error al actualizar la nota.",
     });
-    return note;
-  } catch (error) {}
+  }
 };
+
+/*
+Creación de método que elimina una nota
+*/
+const deleteNote = async (event) => {
+  try {
+    const dynamodb = new AWS.DynamoDB.DocumentClient();
+    const { id } = event.pathParameters;
+    await dynamodb
+      .delete({
+        TableName: "Notes",
+        Key: {
+          id,
+        },
+      })
+      .promise();
+
+    return responseMessage(200, {
+      message: "Se eliminó correctamente la nota.",
+    });
+  } catch (error) {
+    // retornamos mensaje de error si falla al realizar la petición
+    return responseMessage(400, {
+      message: "Ocurrió un error al eliminar la nota.",
+    });
+  }
+};
+
 const responseMessage = (statusCode, data) => {
   return {
     statusCode: statusCode,
     body: JSON.stringify(data),
   };
 };
+
 module.exports = {
   starWarsApi,
   createNote,
   getAllNotes,
   getNote,
   updateNote,
+  deleteNote,
 };
