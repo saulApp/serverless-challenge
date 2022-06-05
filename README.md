@@ -1,72 +1,43 @@
 <!--
-title: 'AWS NodeJS Example'
-description: 'This template demonstrates how to deploy a NodeJS function running on AWS Lambda using the traditional Serverless Framework.'
+title: 'Reto técnico'
+description: 'Para el presente reto se realizó el desarrollo de una API en node js. con el framework Serverless con AWS '
 layout: Doc
 framework: v3
 platform: AWS
 language: nodeJS
 priority: 1
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
+authorLink: 'https://github.com/saulApp/serverless-challenge'
+authorName: 'Saul Aranda Chavez.'
 -->
 
 
-# Serverless Framework AWS NodeJS Example
+# Detalle del reto:
 
-This template demonstrates how to deploy a NodeJS function running on AWS Lambda using the traditional Serverless Framework. The deployed function does not include any event definitions as well as any kind of persistence (database). For more advanced configurations check out the [examples repo](https://github.com/serverless/examples/) which includes integrations with SQS, DynamoDB or examples of functions that are triggered in `cron`-like manner. For details about configuration of specific `events`, please refer to our [documentation](https://www.serverless.com/framework/docs/providers/aws/events/).
+1- Integrar API de Prueba StarWars API
+2- Creación de servicio POST para la creación de notas 
+3- Creación de servicio GET para obtener todas las notas
+4- Creación de servicio GET para obtener una nota por Id
+5- Creación de servicio PUT para actualizar la nota
+6- Creación de servicio DELETE para eliminar una nota por Id
+7- Realizar la documentación de los servicios
 
-## Usage
 
-### Deployment
+### Deploy
 
-In order to deploy the example, you need to run the following command:
-
-```
-$ serverless deploy
-```
-
-After running deploy, you should see output similar to:
-
-```bash
-Deploying aws-node-project to stage dev (us-east-1)
-
-✔ Service deployed to stack aws-node-project-dev (112s)
-
-functions:
-  hello: aws-node-project-dev-hello (1.5 kB)
-```
-
-### Invocation
-
-After successful deployment, you can invoke the deployed function by using the following command:
+Se ejecuta el comando npm install para poder descargar todas las dependencias:
 
 ```bash
-serverless invoke --function hello
+npm install
 ```
 
-Which should result in response similar to the following:
-
-```json
-{
-    "statusCode": 200,
-    "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": {}\n}"
-}
-```
-
-### Local development
-
-You can invoke your function locally by using the following command:
+Se ejecuta el comando para realizar el deploy a aws:
 
 ```bash
-serverless invoke local --function hello
+serverless deploy --verbose
 ```
 
-Which should result in response similar to the following:
+Se muestra el log sin errores en la subida: 
 
-```
-{
-    "statusCode": 200,
-    "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": \"\"\n}"
-}
-```
+![carbon (1)](https://user-images.githubusercontent.com/44443381/172071399-3bb1041b-a288-47aa-82a8-16879b748be8.png)
+
+
