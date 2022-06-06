@@ -27,6 +27,7 @@ authorName: 'Saul Aranda Chavez.'
 
 7- Realizar la documentación de los servicios con Open API/Swagger
 
+8- Realizar las pruebas unitarias con Jest
 
 
 ### Deploy :runner:
@@ -56,23 +57,27 @@ Se muestra el log sin errores en la subida:
 
 ![image](https://user-images.githubusercontent.com/44443381/172071535-55cacf48-fc7e-441d-83e3-ca29ff1c12ea.png)
 
-2- Creación de una nota
+2- Obtener pelicula de star wars por Id
+
+![image](https://user-images.githubusercontent.com/44443381/172081179-e5ce0f37-1561-4a6a-af00-ff654c98a87a.png)
+
+3- Creación de una nota
 
 ![image](https://user-images.githubusercontent.com/44443381/172071746-677057f7-51eb-47fd-a031-92a0c27088b2.png)
 
-3- Listar notas
+4- Listar notas
 
 ![image](https://user-images.githubusercontent.com/44443381/172071667-8ceefe6e-1a02-456c-a15f-59c19bf1bd0d.png)
 
-4- Obtener una nota por Id
+5- Obtener una nota por Id
 
 ![image](https://user-images.githubusercontent.com/44443381/172071699-f4067fea-7f0e-4019-b2f5-ae7ca984fc0b.png)
 
-5- Actualizar una nota por Id
+6- Actualizar una nota por Id
 
 ![image](https://user-images.githubusercontent.com/44443381/172071719-c635ac65-b3e9-4ea3-a807-d0aae252a13f.png)
 
-6- Eliminar una nota por Id
+7- Eliminar una nota por Id
 
 ![image](https://user-images.githubusercontent.com/44443381/172071729-04275f6d-e145-4f47-ab5d-c8497231db4d.png)
 
@@ -87,6 +92,16 @@ serverless openapi generate
 
 ![image](https://user-images.githubusercontent.com/44443381/172071845-6371fba5-2c57-4f28-8f73-3b522c5c8480.png)
 
+### pruebas unitarias 🚀
+---
+
+Ejecutar comando para poder realizar las pruebas
+
+```bash
+npm run test
+```
+
+![carbon (2)](https://user-images.githubusercontent.com/44443381/172080929-5f9186c6-6cf7-4ddc-b10a-f2695ea67e17.png)
 
 
 
