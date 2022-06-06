@@ -81,6 +81,12 @@ Se muestra el log sin errores en la subida:
 
 ![image](https://user-images.githubusercontent.com/44443381/172071729-04275f6d-e145-4f47-ab5d-c8497231db4d.png)
 
+
+### Notas almacenadas en la base de datos 
+---
+
+![image](https://user-images.githubusercontent.com/44443381/172082895-75b3f374-20a6-4731-9747-bc1f8e2468eb.png)
+
 ### Documentación de servicios :memo:
 ---
 
