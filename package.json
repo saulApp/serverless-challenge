@@ -2,9 +2,9 @@
   "name": "aws-serverless",
   "version": "1.0.0",
   "description": "Reto desarrollo backend nodejs",
-  "main": "handler.js",
+  "main": "service.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --env=node"
   },
   "keywords": [
     "NodeJs"
@@ -18,6 +18,7 @@
   },
   "devDependencies": {
     "serverless-aws-documentation": "^1.1.0",
+    "serverless-jest-plugin": "^0.4.0",
     "serverless-openapi-documentation": "^0.4.0"
   }
 }

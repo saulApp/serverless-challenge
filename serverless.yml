@@ -2,7 +2,6 @@ org: saularanda
 app: test-serverless
 service: test-serverless
 frameworkVersion: "3"
-
 provider:
   name: aws
   runtime: nodejs14.x
@@ -16,6 +15,7 @@ provider:
 plugins:
   - serverless-openapi-documentation
   - serverless-aws-documentation
+  - serverless-jest-plugin
 
 custom:
   documentation:
@@ -61,6 +61,39 @@ custom:
               type: string
             url:
               type: string
+      - name: Film
+        description: "Es el detalle de la pelicula de star wars"
+        contentType: "application/json"
+        schema:
+          type: object
+          properties:
+            titulo:
+              type: string
+            episodio_id:
+              type: string
+            texto_apertura:
+              type: string
+            director:
+              type: string
+            productor:
+              type: string
+            fecha_lanzamiento:
+              type: string
+            personajes:
+              type: string
+            planetas:
+              type: string
+            naves:
+              type: string
+            vehiculos:
+              type: string
+            especies:
+              type: string
+            creado:
+              type: string
+            editado:
+              type: string
+            url:
       - name: Note
         contentType: "application/json"
         schema:
@@ -107,8 +140,8 @@ custom:
               type: string
 
 functions:
-  starWarsApi:
-    handler: src/handler.starWarsApi
+  getPeople:
+    handler: src/swapi.getPeople
     events:
       - http:
           path: "personaje/{id}"
@@ -130,8 +163,31 @@ functions:
               - statusCode: "400"
                 responseModels:
                   "application/json": "ErrorResponse"
+  getFilm:
+    handler: src/swapi.getFilm
+    events:
+      - http:
+          path: "pelicula/{id}"
+          method: "get"
+          documentation:
+            summary: "Obtener pelicula"
+            description: "Obtiene una pelicula de star wars por id"
+            pathParams:
+              - name: "id"
+                description: "Id de la pelicula de star wars"
+                schema:
+                  type: "number"
+            methodResponses:
+              - statusCode: "200"
+                responseBody:
+                  description: "Obtenemos la pelicula de star wars"
+                responseModels:
+                  "application/json": "Film"
+              - statusCode: "400"
+                responseModels:
+                  "application/json": "ErrorResponse"
   createNote:
-    handler: src/handler.createNote
+    handler: src/service.createNote
     events:
       - http:
           method: "post"
@@ -153,7 +209,7 @@ functions:
                 responseModels:
                   "application/json": "ErrorResponse"
   getAllNotes:
-    handler: src/handler.getAllNotes
+    handler: src/service.getAllNotes
     events:
       - http:
           method: "get"
@@ -171,7 +227,7 @@ functions:
                 responseModels:
                   "application/json": "ErrorResponse"
   getNote:
-    handler: src/handler.getNote
+    handler: src/service.getNote
     events:
       - http:
           method: "get"
@@ -194,7 +250,7 @@ functions:
                 responseModels:
                   "application/json": "ErrorResponse"
   updateNote:
-    handler: src/handler.updateNote
+    handler: src/service.updateNote
     events:
       - http:
           method: put
@@ -217,7 +273,7 @@ functions:
                 responseModels:
                   "application/json": "ErrorResponse"
   deleteNote:
-    handler: src/handler.deleteNote
+    handler: src/service.deleteNote
     events:
       - http:
           method: delete
